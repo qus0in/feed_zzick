@@ -50,6 +50,11 @@ Ensure that all modifications respect the established directory layout:
 
 ## 3. Standard Operating Procedures (SOP) for Agents
 
+### Git Commit Messages
+- Use the format `english-category:한글메시지` for future commits.
+- Keep the English category concise, such as `docs`, `fix`, `feat`, `chore`, or `style`.
+- Write the Korean message as a short, direct summary of the change.
+
 ### Modifying State & Logic in `docs/js/`
 - Central state is in `state.js`. Main engine ticks run in `app.js`.
 - Facial expression morphs and progress bar displays are handled in `ui.js`.
