@@ -2,7 +2,9 @@
 
 작고 가벼운 햄스터 밥주기 미니게임입니다.
 
-화면을 누르면 해바라기씨가 포물선을 그리며 날아가고, 햄스터는 먹고 씹고 놀라며 반응합니다. 별도의 빌드 도구 없이 HTML, CSS, JavaScript만으로 구성되어 있어 `docs/index.html`을 바로 열어 플레이할 수 있습니다.
+![햄쮝이 밥죠 미리보기](docs/og-image.png)
+
+화면을 누르면 해바라기씨가 포물선을 그리며 날아가고, 햄스터는 먹고 씹고 놀라며 반응합니다. 별도의 빌드 도구 없이 HTML, CSS, JavaScript만으로 구성되어 있어 정적 서버에서 바로 플레이할 수 있습니다.
 
 ## 특징
 
@@ -13,15 +15,11 @@
 
 ## 실행
 
-가장 간단한 방법은 `docs/index.html`을 브라우저로 여는 것입니다.
+`VS Code`/`Antigravity IDE` 등에서 Live Server로 실행합니다.
 
-로컬 서버로 확인하려면 프로젝트 루트에서 다음을 실행합니다.
-
-```bash
-python3 -m http.server 8000
-```
-
-그다음 `http://localhost:8000/docs/`로 접속합니다.
+1. 프로젝트 폴더를 `VS Code`/`Antigravity IDE`로 엽니다.
+2. `docs/index.html`을 선택합니다.
+3. `Open with Live Server`로 실행합니다.
 
 ## 구조
 
