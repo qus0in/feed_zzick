@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'OngleipParkDahyeon';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GangwonEducationModuche';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFLightA.woff') format('woff');
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GangwonEducationModuche';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap');
+
+:root {
+  /* HSL Color System */
+  --bg-grad-start: hsl(38, 60%, 98%);
+  --bg-grad-end: hsl(30, 40%, 93%);
+  --card-bg: hsla(0, 0%, 100%, 0.72);
+  --card-border: hsla(28, 30%, 75%, 0.25);
+  
+  --text-main: hsl(28, 45%, 25%);
+  --text-sub: hsl(28, 20%, 50%);
+  
+  --primary: hsl(356, 100%, 81%);
+  --primary-hover: hsl(356, 95%, 75%);
+  --primary-glow: hsla(356, 100%, 81%, 0.4);
+  
+  --gold: hsl(43, 100%, 70%);
+  --gold-glow: hsla(43, 100%, 70%, 0.4);
+  
+  --seed-body: hsl(28, 30%, 35%);
+  --seed-stripe: hsl(38, 40%, 88%);
+  
+  --green-success: hsl(145, 60%, 75%);
+  
+  /* Layout Constants */
+  --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --bounce-elastic: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}

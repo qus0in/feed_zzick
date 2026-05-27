@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>햄쮝이 밥죠 🐹</title>
+  <meta name="description" content="화면을 눌러 해바라기씨를 던져주고 귀여운 햄스터 볼을 빵빵하게 만들어주는 힐링 게임입니다. HTML, CSS, JS만으로 가볍고 부드럽게 구동됩니다.">
+  <meta name="keywords" content="햄쮝이 밥죠, 햄스터 게임, 해바라기씨 주기, SVG 애니메이션, 힐링 웹게임">
+  <meta name="author" content="Antigravity AI">
+  
+  <!-- OpenGraph Metadata -->
+  <meta property="og:title" content="햄쮝이 밥죠 - 힐링 햄스터 키우기 미니게임">
+  <meta property="og:description" content="볼이 빵빵해질 때까지 밥을 줘보세요! 귀여운 SVG 애니메이션과 뇩뇩거리는 갉아먹기 효과음이 함께합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="og-image.svg">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="400">
+  
+  <!-- Stylesheets (Granular modular CSS sheets) -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/arena.css">
+  <link rel="stylesheet" href="css/particles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <!-- Favicon placeholder (Cute hamster emoji) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐹</text></svg>">
+</head>
+<body>
+
+  <!-- Premium Double-Glass Card Container -->
+  <main class="game-container" id="game-card">
+    
+    <!-- Header Area -->
+    <header>
+      <h1><span>🐹</span> 햄쮝이 밥죠</h1>
+      <p class="subtitle">볼이 빵빵해질 때까지 밥을 줘봐다쮝!</p>
+      
+      <!-- Difficulty Selection pill switcher (hidden during gameplay, managed by modal) -->
+      <div class="difficulty-toggle" role="group" aria-label="난이도 선택" id="diff-toggle-header" style="display:none">
+        <button class="diff-btn active" id="diff-easy" data-difficulty="easy">쉬움 🟢</button>
+        <button class="diff-btn" id="diff-hard" data-difficulty="hard">어려움 🔴</button>
+      </div>
+      <!-- Current difficulty badge (shown during gameplay) -->
+      <div class="current-diff-badge" id="current-diff-badge" style="display:none"></div>
+    </header>
+
+    <!-- Game Arena Zone (Seeds fall here on click) -->
+    <section class="game-arena" id="game-arena" aria-label="햄스터 밥주는 공간. 클릭해서 밥을 줍니다.">
+      <div class="feed-hint" id="feed-hint">화면을 터치해서 밥 줘다쮝! 🌻</div>
+      
+      <!-- Interactive SVG Hamster Wrapper -->
+      <div class="hamster-wrapper">
+        <svg class="hamster-svg" id="hamster-svg" viewBox="0 0 300 300" width="100%" height="100%">
+          
+          <!-- 1. Soft Ambient Shadow -->
+          <ellipse id="hamster-shadow" cx="150" cy="275" rx="72" ry="10" fill="hsla(28, 40%, 20%, 0.08)" />
+
+          <!-- Hoarded/Stashed Seeds Cluster (Progressively pops up behind Hamster based on satiety) -->
+          <g id="stashed-seeds">
+            <!-- Left Heap (5 Seeds) -->
+            <g id="stash-seed-0" style="transform-origin: 80px 245px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(80, 245) rotate(-55) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+            <g id="stash-seed-2" style="transform-origin: 65px 252px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(65, 252) rotate(-30) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+            <g id="stash-seed-4" style="transform-origin: 92px 256px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(92, 256) rotate(10) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+            <g id="stash-seed-6" style="transform-origin: 52px 248px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(52, 248) rotate(-75) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+            <g id="stash-seed-8" style="transform-origin: 74px 259px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(74, 259) rotate(-15) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+            
+            <!-- Right Heap (5 Seeds) -->
+            <g id="stash-seed-1" style="transform-origin: 220px 245px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(220, 245) rotate(55) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+            <g id="stash-seed-3" style="transform-origin: 235px 252px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(235, 252) rotate(30) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+            <g id="stash-seed-5" style="transform-origin: 208px 256px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(208, 256) rotate(-10) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+            <g id="stash-seed-7" style="transform-origin: 248px 248px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(248, 248) rotate(75) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+            <g id="stash-seed-9" style="transform-origin: 226px 259px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.28), opacity 0.3s ease; opacity: 0; transform: scale(0);">
+              <g transform="translate(226, 259) rotate(15) scale(0.6)">
+                <path d="M 0,-15 C 6,-5 10,3 9,9 C 8,13 4,14 0,14 C -4,14 -8,13 -9,9 C -10,3 -6,-5 0,-15 Z" fill="var(--seed-body)" />
+                <path d="M 0,-14 C 2,-5 5,2 4.5,7 C 4,11 2,12 0,12 C -2,12 -4,11 -4.5,7 C -5,-5 -2,-5 0,-14 Z" fill="var(--seed-stripe)" opacity="0.85" />
+              </g>
+            </g>
+          </g>
+
+          <!-- 2. Ears (Left & Right) -->
+          <g id="hamster-ears">
+            <!-- Left Outer Ear -->
+            <circle cx="85" cy="72" r="28" fill="hsl(28, 55%, 76%)" />
+            <!-- Left Inner Ear -->
+            <circle cx="85" cy="72" r="16" fill="hsl(356, 100%, 88%)" />
+            
+            <!-- Right Outer Ear -->
+            <circle cx="215" cy="72" r="28" fill="hsl(28, 55%, 76%)" />
+            <!-- Right Inner Ear -->
+            <circle cx="215" cy="72" r="16" fill="hsl(356, 100%, 88%)" />
+          </g>
+
+          <!-- 3. Main Chubby Body (Pear shape) -->
+          <path id="hamster-body" d="M 88,110 C 58,160 48,255 150,255 C 252,255 242,160 212,110 C 190,82 110,82 88,110 Z" fill="hsl(28, 65%, 85%)" />
+          
+          <!-- Creamy Belly Patch -->
+          <path id="hamster-belly" d="M 98,172 C 78,202 78,250 150,250 C 222,250 222,202 202,172 C 182,152 118,152 98,172 Z" fill="hsl(38, 60%, 98%)" />
+
+          <!-- 4. Glowing Blush Cheeks -->
+          <g id="hamster-cheeks">
+            <circle id="cheek-left" cx="104" cy="182" r="16" fill="hsl(356, 100%, 83%)" opacity="0.85" />
+            <circle id="cheek-right" cx="196" cy="182" r="16" fill="hsl(356, 100%, 83%)" opacity="0.85" />
+          </g>
+
+          <!-- 5. Eyes (With cute reflections & switchable arches for satisfied mood) -->
+          <g id="hamster-eyes">
+            <!-- Normal Eye Left -->
+            <g id="eye-left-normal">
+              <circle id="eye-left" cx="114" cy="148" r="10" fill="hsl(28, 45%, 15%)" />
+              <circle id="eye-left-highlight" cx="111.5" cy="145.5" r="3" fill="#FFFFFF" />
+            </g>
+            <!-- Happy Arch Eye Left -->
+            <path id="eye-left-happy" d="M 104,152 Q 114,138 124,152" fill="none" stroke="hsl(28, 45%, 15%)" stroke-width="4.5" stroke-linecap="round" style="display: none;" />
+            <!-- Spicy Dizzy Eye Left (X-eye) -->
+            <path id="eye-left-spicy" d="M 108,143 L 120,153 M 120,143 L 108,153" fill="none" stroke="hsl(28, 45%, 15%)" stroke-width="3.5" stroke-linecap="round" style="display: none;" />
+
+            <!-- Normal Eye Right -->
+            <g id="eye-right-normal">
+              <circle id="eye-right" cx="186" cy="148" r="10" fill="hsl(28, 45%, 15%)" />
+              <circle id="eye-right-highlight" cx="183.5" cy="145.5" r="3" fill="#FFFFFF" />
+            </g>
+            <!-- Happy Arch Eye Right -->
+            <path id="eye-right-happy" d="M 176,152 Q 186,138 196,152" fill="none" stroke="hsl(28, 45%, 15%)" stroke-width="4.5" stroke-linecap="round" style="display: none;" />
+            <!-- Spicy Dizzy Eye Right (X-eye) -->
+            <path id="eye-right-spicy" d="M 180,143 L 192,153 M 192,143 L 180,153" fill="none" stroke="hsl(28, 45%, 15%)" stroke-width="3.5" stroke-linecap="round" style="display: none;" />
+          </g>
+
+          <!-- 6. Cute Nose & Swappable Lips -->
+          <polygon id="hamster-nose" points="146,156 154,156 150,161" fill="hsl(356, 70%, 65%)" />
+          
+          <!-- Cute Cat Lips path (Closed Mouth - Default) -->
+          <path id="hamster-mouth" d="M 141,164 Q 145.5,170 150,164 Q 154.5,170 159,164" fill="none" stroke="hsl(28, 45%, 25%)" stroke-width="2.5" stroke-linecap="round" />
+          
+          <!-- Open Chewing Mouth (Perfect tiny circle) -->
+          <circle id="hamster-mouth-chewing" cx="150" cy="167" r="4.5" fill="hsl(28, 45%, 25%)" style="display: none;" />
+
+          <!-- Shocked O-Mouth for bird interception -->
+          <circle id="hamster-mouth-shocked" cx="150" cy="168" r="8" fill="none" stroke="hsl(28, 45%, 25%)" stroke-width="2.5" style="display: none;" />
+
+          <!-- 7. Tiny Soft Paws -->
+          <g id="hamster-paws">
+            <circle cx="108" cy="226" r="9" fill="hsl(38, 60%, 98%)" stroke="hsl(28, 55%, 78%)" stroke-width="1.5" />
+            <circle cx="192" cy="226" r="9" fill="hsl(38, 60%, 98%)" stroke="hsl(28, 55%, 78%)" stroke-width="1.5" />
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Stats & Progress Indicator Panel -->
+    <section class="stats-panel">
+      <div class="bar-header">
+        <label for="hunger-progress" id="satiety-label">🐹 햄쮝이 포만감</label>
+        <div class="score-badge">🏆 <span id="score-val">0</span>점</div>
+        <span class="mood-badge" id="mood-badge">대기 중</span>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
+      </div>
+      <!-- High-score badge: hidden until first clear -->
+      <div class="hiscore-badge" id="hiscore-badge" style="display:none;">
+        🌟 최고 기록: <span id="hiscore-val">0</span>점
+      </div>
+    </section>
+
+    <!-- Timing Slider Gauge Panel -->
+    <section class="timing-panel" aria-label="밥 주기 타이밍 조절 게이지">
+      <div class="bar-header">
+        <label>🎯 밥 주기 타이밍</label>
+        <span class="item-preview" id="item-preview">🌻 씨앗</span>
+      </div>
+      <div class="timing-track" id="timing-track">
+        <!-- Colored Zones representing each outcome (Explicit IDs for dynamic Easy/Hard switches) -->
+        <div class="zone zone-bird" id="zone-bird" style="width: 20%;" title="참새 영역 (20%)">🐦</div>
+        <div class="zone zone-seed" id="zone-seed" style="width: 60%;" title="씨앗 안전 영역 (60%)">🌻</div>
+        <div class="zone zone-chili" id="zone-chili" style="width: 20%;" title="고추 위험 영역 (20%)">🔥</div>
+        <!-- Sliding Indicator Pin -->
+        <div class="timing-indicator" id="timing-indicator"></div>
+      </div>
+    </section>
+
+    <!-- Interactive Buttons Panel -->
+    <section class="control-row">
+      <button class="btn-feed" id="btn-feed" aria-label="해바라기씨 주기">
+        <span>🌻</span> 밥 주기
+      </button>
+      <button class="btn-reset" id="btn-reset" aria-label="게임 초기화">↺</button>
+    </section>
+
+    <!-- Tip Ticker (Rotating Game Tips) -->
+    <section class="tip-ticker" id="tip-ticker" aria-label="게임 팁">
+      <span class="tip-icon" id="tip-icon">💡</span>
+      <span class="tip-text" id="tip-text">게이지가 씨앗 🌻 위에 있을 때 밥을 주면 포만감이 올라가요!</span>
+    </section>
+
+    <!-- Bottom Credits -->
+    <footer>
+      <p>Designed with 💖 by Antigravity</p>
+    </footer>
+
+  </main>
+
+  <!-- Intro Modal (rendered before scripts so JS can wire it up on load) -->
+  <div class="intro-modal-backdrop" id="intro-modal-backdrop">
+    <div class="intro-modal" id="intro-modal" role="dialog" aria-modal="true" aria-label="난이도 선택">
+      <div class="intro-hamster-emoji">🐹</div>
+      <h2 class="intro-title">햄쮝이 밥죠</h2>
+      <p class="intro-sub">밥 안 주면 집 나간다찌직 😤</p>
+      <div class="intro-name-group">
+        <label for="intro-name-input">쮝집사 이름 입력해라찌직 👇</label>
+        <input type="text" id="intro-name-input" placeholder="이름을 입력해라찌직..." maxlength="8" value="쮝집사">
+      </div>
+      <p class="intro-diff-label">난이도를 선택하세요</p>
+      <div class="intro-diff-group">
+        <button class="intro-diff-btn" id="intro-easy-btn">
+          <span class="intro-diff-icon">🟢</span>
+          <span class="intro-diff-name">쉬움</span>
+          <span class="intro-diff-desc">씨앗 구역 넓음 · 속도 느림<br>처음 하는 분께 추천한다쮝!</span>
+        </button>
+        <button class="intro-diff-btn" id="intro-hard-btn">
+          <span class="intro-diff-icon">🔴</span>
+          <span class="intro-diff-name">어려움</span>
+          <span class="intro-diff-desc">씨앗·새·고추 랜덤 혼합<br>높은 점수 도전이다찌직!</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Game Scripts (Safe local sequential imports bypassing CORS) -->
+  <script src="js/state.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/physics.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

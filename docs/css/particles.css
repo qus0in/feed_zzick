@@ -1,0 +1,44 @@
+/* Falling Seed */
+.sunflower-seed {
+  position: absolute;
+  width: 24px;
+  height: 32px;
+  pointer-events: none;
+  z-index: 5;
+  filter: drop-shadow(0 4px 6px rgba(112, 83, 53, 0.15));
+  will-change: transform;
+}
+
+/* Particle explosion crumbs */
+.crumb-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: var(--seed-stripe);
+  border: 1px solid var(--seed-body);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 6;
+  will-change: transform, opacity;
+}
+
+/* Celebration Confetti */
+.confetti-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 100;
+  will-change: transform, opacity;
+}
+
+/* Heart particles for full satisfaction */
+.heart-particle {
+  position: absolute;
+  font-size: 1.2rem;
+  pointer-events: none;
+  z-index: 100;
+  animation: heart-fly 1.2s ease-out forwards;
+  will-change: transform, opacity;
+}
