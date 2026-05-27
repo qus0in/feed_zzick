@@ -1,19 +1,14 @@
 # 햄쮝이 밥죠
 
-작고 가벼운 햄스터 밥주기 미니게임입니다.
+바이브 코딩으로 구현한 햄스터 밥주기 미니게임
 
 ![햄쮝이 밥죠 미리보기](docs/og-image.png)
 
-화면을 누르면 해바라기씨가 포물선을 그리며 날아가고, 햄스터는 먹고 씹고 놀라며 반응합니다. 별도의 빌드 도구 없이 HTML, CSS, JavaScript만으로 구성되어 있어 정적 서버에서 바로 플레이할 수 있습니다.
-
-## 특징
-
-- SVG 햄스터 표정과 볼 변화 애니메이션
-- 해바라기씨 투척, 참새 방해, 고추 폭탄 이벤트
-- 타이밍 게이지 기반의 간단한 조작감
-- 브라우저에서 바로 실행되는 정적 웹 게임
-
 ## 실행
+
+GitHub Pages에서 바로 시작할 수 있습니다.
+
+- https://qus0in.github.io/feed_zzick/
 
 `VS Code`/`Antigravity IDE` 등에서 Live Server로 실행합니다.
 
@@ -21,17 +16,11 @@
 2. `docs/index.html`을 선택합니다.
 3. `Open with Live Server`로 실행합니다.
 
-## 구조
+## GitHub Pages 설정
 
-```text
-docs/
-├── index.html
-├── css/
-└── js/
-```
+GitHub 저장소의 `Settings`에서 다음처럼 설정하면 `docs/` 경로를 기준으로 배포됩니다.
 
-게임 화면은 `docs/index.html`, 스타일은 `docs/css/`, 상태와 상호작용 로직은 `docs/js/`에 나누어져 있습니다.
-
-## 방향
-
-이 프로젝트는 복잡한 프레임워크보다 즉시 열리고 이해되는 작은 웹 게임을 지향합니다. 변경할 때도 가볍고 직관적인 구조를 유지하는 것을 우선합니다.
+1. `Settings` → `Pages`로 이동합니다.
+2. `Build and deployment`의 `Source`를 `Deploy from a branch`로 선택합니다.
+3. `Branch`를 `main`, 폴더를 `/docs`로 선택합니다.
+4. 저장 후 표시되는 GitHub Pages 주소로 접속합니다.

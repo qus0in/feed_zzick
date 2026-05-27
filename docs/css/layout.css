@@ -147,6 +147,35 @@ footer {
   letter-spacing: 0.2px;
 }
 
+.repository-link {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  transition: var(--bounce-elastic);
+}
+
+.repository-link:hover {
+  color: var(--text-main);
+  background: hsla(28, 30%, 75%, 0.14);
+  transform: translateY(-1px);
+}
+
+.repository-link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.repository-icon {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  flex: 0 0 auto;
+}
+
 /* Crisis Mode Body & Card Modifiers */
 body.crisis-mode {
   background: linear-gradient(135deg, hsl(356, 70%, 94%) 0%, hsl(340, 60%, 89%) 100%);
@@ -667,4 +696,3 @@ body.crisis-mode .game-container {
   margin-top: 4px;
   animation: score-glow 2.5s infinite ease-in-out alternate;
 }
-
