@@ -70,12 +70,10 @@ Ensure that all modifications respect the established directory layout:
 ---
 
 ## 4. Run & Test Locally
-To spin up a local development server for testing, execute:
-```bash
-# Using Python's built-in server (recommended)
-python3 -m http.server 8000
+This project is directly runnable by opening `docs/index.html`.
 
-# Or using Node's live-server if installed
+If a local development server is needed for browser testing, use:
+```bash
 npx live-server
 ```
-Navigate to `http://localhost:8000` to inspect UI adjustments in real-time.
+Navigate to the URL printed by `live-server` to inspect UI adjustments in real-time.

@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+  word-break: keep-all;
 }
 
 body {
@@ -16,6 +17,7 @@ body {
   align-items: center;
   overflow-x: hidden;
   padding: 20px;
+  overflow-wrap: break-word;
 }
 
 /* Base Wrapper & Card Grid */
@@ -27,14 +29,14 @@ body {
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-radius: 36px;
-  padding: 30px;
+  padding: 24px;
   box-shadow: 
     0 20px 40px -15px hsla(28, 30%, 30%, 0.1),
     inset 0 1px 2px 0 rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 14px;
   animation: fadeIn 0.8s var(--bounce-elastic);
   position: relative;
 }
@@ -71,13 +73,6 @@ h1 span {
   font-weight: 300;
 }
 
-/* Button & Controller Row */
-.control-row {
-  width: 100%;
-  display: flex;
-  gap: 12px;
-}
-
 button {
   flex: 1;
   font-family: 'OngleipParkDahyeon', 'Comfortaa', sans-serif;
@@ -94,38 +89,20 @@ button {
   transition: var(--bounce-elastic);
 }
 
-.btn-feed {
-  background: var(--primary);
-  color: #FFFFFF;
-  box-shadow: 
-    0 8px 20px -6px var(--primary-glow),
-    inset 0 -3px 0 0 rgba(0,0,0,0.1);
-}
-
-.btn-feed:hover {
-  transform: translateY(-2px);
-  background: var(--primary-hover);
-  box-shadow: 
-    0 12px 24px -6px var(--primary-glow),
-    inset 0 -3px 0 0 rgba(0,0,0,0.15);
-}
-
-.btn-feed:active {
-  transform: translateY(1px);
-  box-shadow: 0 4px 10px -4px var(--primary-glow);
-}
-
 .btn-reset {
-  flex: 0 0 52px;
-  width: 52px;
-  height: 52px;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
   padding: 0;
-  background: hsla(28, 30%, 75%, 0.15);
+  background: hsla(38, 60%, 98%, 0.74);
   color: var(--text-main);
   border: 1px solid hsla(28, 30%, 75%, 0.3);
   border-radius: 50%;
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   line-height: 1;
+  box-shadow: 0 8px 18px -14px hsla(28, 30%, 20%, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .btn-reset:hover {
@@ -145,6 +122,26 @@ footer {
   font-weight: 300;
   text-align: center;
   letter-spacing: 0.2px;
+}
+
+.game-meta-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 42px;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-meta-row .current-diff-badge {
+  justify-self: start;
+}
+
+.game-meta-row .hiscore-badge {
+  justify-self: center;
+}
+
+.game-meta-row .btn-reset {
+  justify-self: end;
 }
 
 .repository-link {
@@ -248,12 +245,12 @@ body.crisis-mode .game-container {
 /* Score Badge Styling */
 .score-badge {
   font-family: 'GangwonEducationModuche', 'Comfortaa', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: hsl(43, 85%, 38%);
   background: hsla(43, 100%, 70%, 0.15);
   border: 1.5px solid hsla(43, 100%, 70%, 0.4);
-  padding: 3px 12px;
+  padding: 3px 9px;
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -275,23 +272,48 @@ body.crisis-mode .game-container {
 }
 
 /* ------------------------------------------- */
-/* Tip Ticker Panel (Bottom rotating hints)     */
+/* Tip Ticker Panel (Arena top rotating hints)  */
 /* ------------------------------------------- */
+.arena-hud {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  z-index: 12;
+}
+
+.arena-hud-top {
+  top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arena-hud-bottom {
+  bottom: 12px;
+  display: block;
+}
+
 .tip-ticker {
-  width: 100%;
-  background: hsla(43, 60%, 72%, 0.12);
-  border: 1px solid hsla(43, 80%, 72%, 0.28);
-  border-radius: 14px;
-  padding: 9px 14px;
+  background: hsla(38, 60%, 98%, 0.86);
+  border: 1.5px solid hsla(43, 85%, 62%, 0.46);
+  border-radius: 18px;
+  padding: 8px 12px;
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 44px;
+  min-height: 36px;
   overflow: hidden;
+  box-shadow:
+    0 10px 24px -18px hsla(28, 30%, 20%, 0.36),
+    inset 0 1px 1px rgba(255,255,255,0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: none;
+  justify-content: center;
 }
 
 .tip-ticker .tip-icon {
-  font-size: 1.0rem;
+  font-size: 1.05rem;
   flex-shrink: 0;
   line-height: 1;
 }
@@ -299,11 +321,12 @@ body.crisis-mode .game-container {
 .tip-ticker .tip-text {
   font-family: 'GangwonEducationModuche', 'Comfortaa', sans-serif;
   font-size: 0.78rem;
-  font-weight: 300;
-  color: var(--text-sub);
-  line-height: 1.4;
-  flex: 1;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.35;
+  flex: 0 1 auto;
   animation: tip-slide-in 0.4s ease-out;
+  text-align: center;
 }
 
 /* ------------------------------------------- */
@@ -386,10 +409,13 @@ body.crisis-mode .game-container {
   font-family: 'GangwonEducationModuche', 'Comfortaa', sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
-  padding: 4px 14px;
+  padding: 5px 11px;
   border-radius: 16px;
-  margin: 6px auto 0;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  white-space: nowrap;
 }
 .current-diff-badge.badge-easy {
   color: hsl(145, 55%, 35%);
@@ -462,6 +488,31 @@ body.crisis-mode .game-container {
   font-weight: 300;
   color: var(--text-sub);
   line-height: 1.4;
+}
+
+.intro-touch-guide {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: hsla(43, 90%, 78%, 0.18);
+  border: 1px solid hsla(43, 85%, 68%, 0.34);
+  border-radius: 18px;
+  padding: 9px 12px;
+  margin-top: 2px;
+  font-family: 'GangwonEducationModuche', 'Comfortaa', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.35;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.7);
+}
+
+.intro-touch-icon {
+  flex: 0 0 auto;
+  font-size: 1.1rem;
+  animation: guide-tap 1.6s ease-in-out infinite;
 }
 
 .intro-name-group {
@@ -613,6 +664,42 @@ body.crisis-mode .game-container {
   text-align: center;
 }
 
+@media (max-width: 640px) {
+  body {
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .game-container {
+    max-width: 100%;
+    border-radius: 28px;
+    padding: 18px 12px 16px;
+    gap: 12px;
+  }
+
+  .btn-reset {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    background: hsla(38, 60%, 98%, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 22px -14px hsla(28, 30%, 20%, 0.45);
+  }
+
+  .game-meta-row {
+    grid-template-columns: auto minmax(0, 1fr) 42px;
+    gap: 6px;
+  }
+
+  .intro-modal {
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    border-radius: 28px;
+    padding: 28px 22px 24px;
+  }
+}
+
 .good-ending-overlay .ge-emoji {
   font-size: 3.4rem;
   animation: happy-bounce 0.7s ease-in-out infinite;
@@ -688,11 +775,16 @@ body.crisis-mode .game-container {
   color: hsl(145, 55%, 35%);
   background: linear-gradient(135deg, hsla(145, 60%, 92%, 0.9) 0%, hsla(43, 80%, 94%, 0.9) 100%);
   border: 1.5px solid hsla(145, 60%, 65%, 0.35);
-  padding: 3px 12px;
+  padding: 5px 10px;
   border-radius: 14px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
-  margin-top: 4px;
+  min-height: 32px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   animation: score-glow 2.5s infinite ease-in-out alternate;
 }

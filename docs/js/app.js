@@ -5,7 +5,6 @@
 
 // DOM Cache (Exclusive to core coordination, other UI elements cached in ui.js)
 const gameArena = document.getElementById('game-arena');
-const btnFeed = document.getElementById('btn-feed');
 const btnReset = document.getElementById('btn-reset');
 const timingIndicator = document.getElementById('timing-indicator');
 const itemPreview = document.getElementById('item-preview');
@@ -19,22 +18,22 @@ const HISCORE_KEY = 'hamster_feeder_hiscore';
 const HISCORE_NAME_KEY = 'hamster_feeder_hiscore_name';
 const PLAYER_NAME_KEY = 'hamster_feeder_player_name';
 
-// Feed cooldown state (blocks rapid-fire button spam)
+// Feed cooldown state (blocks rapid-fire tap spam)
 let feedCooldown = false;
-const FEED_COOLDOWN_MS = 2000; // Adjusted to match the slowest successful animation cycle (throw + chew)
+const FEED_COOLDOWN_MS = 2000; // Longer lockout for hazard/intercept animations
+const SUCCESS_FEED_COOLDOWN_MS = 1200;
 
 // Tip Ticker Data — 쥐 말투 반영
 const TIPS = [
-  { icon: '🌻', text: '게이지가 씨앗 🌻 구역 위에 있을 때 밥을 주면 포만감이 올라가쮝!' },
-  { icon: '🎯', text: '구역 경계를 딱 넘길 때 발사하면 보너스 점수를 받는다찌직 ⭐' },
-  { icon: '🐦', text: '참새가 씨앗을 가로채 간다쮝. 게이지 위치를 잘 확인해야 해쮝!' },
-  { icon: '🔥', text: '고추에 맞으면 매워서 포만감이 뚝 떨어진다찌직 조심해쮝!' },
-  { icon: '💫', text: '포만감 100%에 도달하면 보너스 점수가 팡 터진다쮝 ✨' },
-  { icon: '🦴', text: '한 번에 왕창 넣는 것보다 사이사이 여러 번 주는 게 효과적이쮝!' },
-  { icon: '⚠️', text: '포만감이 0%가 되면 집을 나가버린다찌직… 꼭 챙겨줘야 해쮝 🏠' },
-  { icon: '🐹', text: '포만감이 올라갈수록 볼이 빵빵해지고 눈이 초승달이 된다쮝 🥹' },
-  { icon: '🌟', text: '어려움 모드를 클리어하면 쉬움보다 2.5배 많은 보너스쮝 도전해봐!' },
-  { icon: '🖱️', text: '버튼 말고 화면 아무 데나 클릭해도 밥을 준다찌직 편한 대로 해!' }
+  { icon: '🌻', text: '씨앗일 때 터치!' },
+  { icon: '🎯', text: '경계 터치 보너스!' },
+  { icon: '🐦', text: '참새 조심!' },
+  { icon: '🔥', text: '고추는 피하기!' },
+  { icon: '💫', text: '100%면 클리어!' },
+  { icon: '⚠️', text: '0%면 가출!' },
+  { icon: '🐹', text: '볼을 빵빵하게!' },
+  { icon: '🌟', text: '어려움은 고득점!' },
+  { icon: '🖱️', text: '화면을 터치!' }
 ];
 
 /**
@@ -59,9 +58,9 @@ function handleArenaClick(e) {
   // Block launching directly inside the hamster bounding space to prevent immediate clicks
   if (seedY > 230) return;
   
-  startFeedCooldown();
   const seed = new SunflowerSeed(clickX - 12, seedY); // Offset seed width/2
   state.activeSeeds.push(seed);
+  startFeedCooldown(seed.type === 'seed' ? SUCCESS_FEED_COOLDOWN_MS : FEED_COOLDOWN_MS);
   
   if (feedHint.style.opacity !== '0') {
     feedHint.style.opacity = '0';
@@ -69,35 +68,13 @@ function handleArenaClick(e) {
 }
 
 /**
- * Seed Launcher Button Trigger
+ * Activates the feed cooldown timer
  */
-function handleFeedButtonClick() {
-  // Block if game not active (modal open), happy, running away, or on cooldown
-  if (!state.gameActive || state.mood === 'happy' || state.isRunningAway || feedCooldown) return;
-
-  initAudio();
-  const padding = 50;
-  const randomX = Math.random() * (gameArena.clientWidth - padding * 2) + padding;
-  
-  startFeedCooldown();
-  const seed = new SunflowerSeed(randomX - 12, 10);
-  state.activeSeeds.push(seed);
-  
-  if (feedHint.style.opacity !== '0') {
-    feedHint.style.opacity = '0';
-  }
-}
-
-/**
- * Activates the feed cooldown timer and visual indicator on the feed button
- */
-function startFeedCooldown() {
+function startFeedCooldown(durationMs = FEED_COOLDOWN_MS) {
   feedCooldown = true;
-  if (btnFeed) btnFeed.classList.add('cooling-down');
   setTimeout(() => {
     feedCooldown = false;
-    if (btnFeed) btnFeed.classList.remove('cooling-down');
-  }, FEED_COOLDOWN_MS);
+  }, durationMs);
 }
 
 /**
@@ -301,7 +278,7 @@ function updateHiscoreBadge() {
   const val   = document.getElementById('hiscore-val');
   if (!badge || !val) return;
   if (best > 0) {
-    val.innerText = `${bestName} (${best.toLocaleString()}점)`;
+    val.innerText = `${bestName} ${best.toLocaleString()}점`;
     badge.style.display = 'inline-flex';
   }
 }
@@ -321,7 +298,7 @@ function setDifficulty(diff) {
   // Update in-game difficulty badge
   const badge = document.getElementById('current-diff-badge');
   if (badge) {
-    badge.style.display = 'inline-block';
+    badge.style.display = 'inline-flex';
     badge.className = `current-diff-badge badge-${diff}`;
     badge.innerText = diff === 'easy' ? '쉬움 🟢' : '어려움 🔴';
   }
@@ -421,7 +398,6 @@ function handleReset() {
   state.fullness = 50;
   state.isRunningAway = false;
   feedCooldown = false;
-  if (btnFeed) btnFeed.classList.remove('cooling-down');
   
   // Reset score and combos
   state.score = 0;
@@ -555,7 +531,6 @@ if (gameArena) {
   }, { passive: true });
 }
 
-if (btnFeed) btnFeed.addEventListener('click', handleFeedButtonClick);
 // Reset button always shows intro modal first
 if (btnReset) btnReset.addEventListener('click', () => {
   // If ending overlays are visible, clear them first then show modal
